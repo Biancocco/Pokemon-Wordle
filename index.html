@@ -2,9 +2,10 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>ポケモンWordle</title>
-<style>
+<style>html,body,button,input{touch-action:manipulation}
+
 :root{--bg:#fff;--fg:#1a1a1b;--bd:#d3d6da;--g:#6aaa64;--y:#c9b458;--n:#787c7e;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121213;--fg:#f8f8f8;--bd:#3a3a3c;--n:#3a3a3c}}
 :root[data-theme="dark"]{--bg:#121213;--fg:#f8f8f8;--bd:#3a3a3c;--n:#3a3a3c}
@@ -248,7 +249,7 @@ $("rno").onclick=()=>{
   $("rt").classList.remove("show");
   if(vsMode){showFinal();return}
   $("gen0").value=$("gen").value;showChecks();$("spmsg").textContent="";
-  document.body.classList.remove("vsm");$("vsbar").style.display="none";fromRetry=true;setMode("normal");$("sp").classList.remove("hide");
+  document.body.classList.remove("vsm","nm");$("vsbar").style.display="none";fromRetry=true;setMode("normal");$("sp").classList.remove("hide");
 };
 $("again").onclick=()=>{if(dailyMode){exitDaily();return}if(vsMode){if(vsOver())showFinal();else nextVsRound()}else start(true)};
 $("quit").onclick=()=>{$("wn").classList.remove("show");if(vsMode)showFinal()};
