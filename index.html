@@ -136,24 +136,26 @@ button:disabled{opacity:.4;cursor:not-allowed}
 <div style="font-size:1.1rem;font-weight:700;text-align:center">二人対戦の設定</div>
 <div id="cfgty"><button type="button" data-t="basic">ベーシック</button><button type="button" data-t="survival">サバイバル</button></div>
 <div class="f">ラウンド数<select id="cfgR" size="3"></select></div>
-<label class="f" id="cfgPw" style="display:block">勝利点<input id="cfgP" inputmode="numeric" maxlength="3" placeholder="空欄で無制限" autocomplete="off"></label>
 <label class="f" style="display:block">回答ごとの制限時間（秒）<input id="cfgT" inputmode="numeric" maxlength="3" placeholder="空欄で無制限" autocomplete="off"></label>
+<label class="f" style="display:block">各ラウンドごとの回答数の上限<input id="cfgL" inputmode="numeric" maxlength="2" value="10" autocomplete="off"></label>
+<label class="f" id="cfgPw" style="display:block">勝利点<input id="cfgP" inputmode="numeric" maxlength="3" placeholder="空欄で無制限" autocomplete="off"></label>
+<label class="f" id="cfgAw" style="display:none">総回答数<input id="cfgA" inputmode="numeric" maxlength="3" placeholder="空欄で無制限" autocomplete="off"></label>
 <div class="f" style="display:flex;align-items:center;justify-content:space-between">お題ランダム化<button type="button" id="cfgsw" role="switch" aria-checked="false" aria-label="お題ランダム化"></button></div>
-<div id="cfglim"><label class="f" id="cfgAw" style="display:none">総回答数<input id="cfgA" inputmode="numeric" maxlength="3" placeholder="空欄で無制限" autocomplete="off"></label><label class="f" style="display:block">各ラウンドごとの回答数の上限<input id="cfgL" inputmode="numeric" maxlength="2" value="10" autocomplete="off"></label></div>
 <div id="cfgm" style="min-height:1.4em;margin-top:8px;font-size:.85rem"></div>
 <div style="text-align:center"><button id="cfgok">決定</button><button class="s" id="cfgno">キャンセル</button></div>
 </div></div>
 <div id="cfgh"><div id="cfghb">
 <div style="font-size:1.1rem;font-weight:700;text-align:center;margin-bottom:10px">設定の説明</div>
-<div><b>ラウンド数</b>：２人が回答フェーズを一度終えるごとに1ラウンド経ったとみなします。決めた数のラウンドで終了します（∞は無制限）。</div>
-<div style="margin-top:8px"><b>勝利点</b>（ベーシック）：どちらかの点数がこの点を超えると終了します（空欄で無制限）。</div>
-<div style="margin-top:8px"><b>回答ごとの制限時間</b>：1回の回答にかけられる秒数です（空欄で無制限）。</div>
-<div style="margin-top:8px"><b>お題ランダム化</b>：ONにすると、お題をランダムに決めます。</div>
-<div style="margin-top:8px"><b>総回答数</b>（サバイバル）：対戦全体で答えられる回数の合計です（空欄で無制限）。</div>
-<div style="margin-top:8px"><b>各ラウンドごとの回答数の上限</b>：1つのお題に答えられる最大の回数です（1〜10）。</div>
-<div style="font-size:1.05rem;font-weight:700;text-align:center;margin:18px 0 8px">モードの説明</div>
+<div style="font-size:1.05rem;font-weight:700;text-align:center;margin:4px 0 8px">モードの説明</div>
 <div><b>ベーシック</b>：お題を少ない回数で当てるほど高い点を獲得できます。先に勝利点に届いた（超えた）ほうの勝ちです。</div>
 <div style="margin-top:8px"><b>サバイバル</b>：回答するたびに、総回答数の残りが1つ減ります。降参すると、その回の四角の列の残りぶんも減ります。残りの回答数が先に0になったほうの負けです。</div>
+<div style="font-size:1.05rem;font-weight:700;text-align:center;margin:18px 0 8px">各設定の説明</div>
+<div><b>ラウンド数</b>：２人が回答フェーズを一度終えるごとに1ラウンド経ったとみなします。決めた数のラウンドで終了します（∞は無制限）。</div>
+<div style="margin-top:8px"><b>回答ごとの制限時間</b>：1回の回答にかけられる秒数です（空欄で無制限）。</div>
+<div style="margin-top:8px"><b>各ラウンドごとの回答数の上限</b>：1つのお題に答えられる最大の回数です（1〜10）。</div>
+<div style="margin-top:8px"><b>勝利点</b>（ベーシック）：どちらかの点数がこの点を超えると終了します（空欄で無制限）。</div>
+<div style="margin-top:8px"><b>総回答数</b>（サバイバル）：対戦全体で答えられる回数の合計です（空欄で無制限）。</div>
+<div style="margin-top:8px"><b>お題ランダム化</b>：ONにすると、お題をランダムに決めます。</div>
 <div style="text-align:center"><button id="cfghc" style="margin-top:14px">閉じる</button></div>
 </div></div>
 <div id="rt"><div id="rbox"><div id="rinfo" style="font-size:1rem;line-height:1.8">連鎖数：<span id="rcount"></span><br>世代：<span id="rgen"></span></div><div id="rq" style="margin-top:12px">同じ世代で続けますか？</div><div style="margin-top:16px"><button id="ryes">はい</button><button class="s" id="rno">いいえ</button></div></div></div>
