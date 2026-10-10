@@ -41,15 +41,23 @@ button.s{background:var(--n)}
 #vf{position:fixed;inset:0;z-index:21;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;padding:16px}
 #vf.show{display:flex}
 #sp #hq{position:absolute;top:12px;right:12px;width:36px;height:36px;margin:0;padding:0;border-radius:50%;border:2px solid var(--fg);background:var(--bg);color:var(--fg);font-size:1.1rem;font-weight:700;line-height:1}
-#hp{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:16px}
-#hp.show{display:flex}
+#hp,#cfgh{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:16px}
+#hp.show,#cfgh.show{display:flex}
 #sp #gear{position:absolute;top:12px;right:56px;width:36px;height:36px;margin:0;padding:0;border-radius:50%;border:2px solid var(--fg);background:var(--bg);color:var(--fg);font-size:1.1rem;font-weight:700;line-height:1}
 #cfg{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:16px}
 #cfg.show{display:flex}
-#cfgb{background:var(--bg);color:var(--fg);width:300px;max-width:100%;max-height:90vh;overflow:auto;padding:20px 24px;border-radius:12px;text-align:left;font-size:.9rem;line-height:1.6}
+#cfgb{position:relative;background:var(--bg);color:var(--fg);width:300px;max-width:100%;max-height:90vh;overflow:auto;padding:20px 24px;border-radius:12px;text-align:left;font-size:.9rem;line-height:1.6}
 #cfgb .f{margin-top:14px}
+#cfgq{position:absolute;top:10px;right:10px;width:28px;height:28px;margin:0;padding:0;border-radius:50%;border:2px solid var(--fg);background:var(--bg);color:var(--fg);font-size:.9rem;font-weight:700;line-height:1}
+#cfgty{display:flex;gap:6px;margin-top:12px}
+#cfgty button{flex:1;margin:0;padding:8px 2px;font-size:.85rem;background:var(--bg);color:var(--fg);border:2px solid var(--bd);border-radius:8px}
+#cfgty button.sel{border-color:var(--g);box-shadow:0 0 0 2px var(--g);font-weight:700}
+#cfgsw{position:relative;flex:none;width:48px;height:28px;margin:0;padding:0;border-radius:14px;background:var(--bd)}
+#cfgsw::after{content:"";position:absolute;top:3px;left:23px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .15s}
+#cfgsw.on{background:var(--g)}
+#cfgsw.on::after{transform:translateX(-20px)}
 #cfgb input,#cfgb select{font-size:1rem;padding:6px;width:100%;box-sizing:border-box;margin-top:4px;border:2px solid var(--bd);border-radius:6px;background:var(--bg);color:var(--fg)}
-#hpb{background:var(--bg);color:var(--fg);max-width:340px;max-height:80vh;overflow:auto;padding:20px 24px;border-radius:12px;text-align:left;font-size:.9rem;line-height:1.7}
+#hpb,#cfghb{background:var(--bg);color:var(--fg);max-width:340px;max-height:80vh;overflow:auto;padding:20px 24px;border-radius:12px;text-align:left;font-size:.9rem;line-height:1.7}
 #vs input::placeholder{opacity:.45}
 #vs button{font-size:1.2rem;padding:12px 32px;margin-top:20px}
 #sp .mode{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:20px}
@@ -70,16 +78,28 @@ button:disabled{opacity:.4;cursor:not-allowed}
 .chk.show{display:block}
 .chk label{display:flex;align-items:center;gap:8px;white-space:nowrap;padding:3px 0;font-size:.95rem;cursor:pointer}
 .chk input{width:auto;height:auto;padding:0;margin:0;border:0;flex:none}
+#main{display:block}
+#lay{display:none;max-width:380px;margin:20px auto 0;text-align:left;font-size:.75rem;opacity:.8}
+#lay select{font-size:.75rem;padding:2px 4px;margin-left:4px}
+@media (min-width:900px) and (hover:hover){
+#lay{display:block}
+.split #main{display:flex;justify-content:center;align-items:flex-start;gap:56px}
+.split #pl{width:460px}
+.split #grid{--cs:38px}
+.split .c{font-size:1.15rem}
+.split #pr{width:380px;padding-top:24px}
+}
 #back{position:absolute;top:12px;left:12px;padding:4px;font-size:.8rem;text-decoration:underline;opacity:.5;cursor:pointer;z-index:1}
 #msg{min-height:1.6em;margin:8px 0;font-weight:700}
 </style>
 </head>
 <body>
+<div id="main"><div id="pl">
 <h1>ポケモンWordle</h1>
 <div id="back" role="button" tabindex="0">メニューに戻る</div>
 <div id="dbar" style="display:none;font-weight:700;margin:8px 0"></div>
 <div id="vsbar" style="display:none"><div id="vsturn" style="font-weight:700;margin:8px 0"></div><div id="vsscore" class="score"></div><div id="vsrnd2" class="score" style="position:absolute;top:12px;right:12px;margin:0;white-space:pre-line;font-size:.85rem;line-height:1.3"></div></div>
-<div>ポケモン名を10回以内に当てよう</div>
+<div id="limtxt">ポケモン名を10回以内に当てよう</div>
 <div id="genrow" style="margin-top:8px">世代：<select id="gen" style="font-size:1rem;padding:4px"></select></div>
 <div id="chk" class="chk"></div>
 <div id="info" style="margin-top:6px"></div>
@@ -87,8 +107,11 @@ button:disabled{opacity:.4;cursor:not-allowed}
 <div id="st" style="margin-top:6px;font-weight:700"></div>
 <div id="grid"></div>
 <div id="msg"></div>
+</div><div id="pr">
 <div style="display:inline-block;text-align:left"><div style="display:flex;align-items:center"><button class="s" id="sur" style="margin-left:0">降参</button><button class="s" id="del" style="margin-left:16px">削除</button><span id="vstimer" class="timer" style="display:none;margin-left:auto;margin-right:4px">00:00</span></div><div><input id="in" placeholder="カタカナで入力" autocomplete="off"><button id="go">決定</button></div></div>
 <div id="kb"></div>
+</div></div>
+<div id="lay">表示のしかた：<select id="layout"><option value="v">縦に並べる</option><option value="h">左右に分ける</option></select></div>
 <div id="cf"><div id="cbox">本当に降参しますか？<div style="margin-top:16px"><button id="yes">はい</button><button class="s" id="no">いいえ</button></div></div></div>
 <details style="margin-top:20px;font-size:.75rem;opacity:.7;text-align:left;max-width:380px;margin-left:auto;margin-right:auto"><summary>名前リストの出典（お題は5文字のみ・6文字以上は除外）</summary><div id="src"></div></details>
 <div id="wn"><div id="wbox">正解！<div id="wstreak" style="margin:8px 0;font-size:1rem">連続正解数：<span id="wcount"></span></div><div id="wpts" style="display:none;margin:8px 0;font-size:1rem"></div><div id="wq" style="font-size:1rem">もう一度、別のお題に挑戦しますか？</div><div style="margin-top:16px"><button id="again">はい</button><button class="s" id="quit">いいえ</button></div></div></div>
@@ -97,24 +120,41 @@ button:disabled{opacity:.4;cursor:not-allowed}
 <div id="spv" style="display:none;text-align:left"><label style="display:block;margin-bottom:12px;font-size:.9rem">プレイヤー1のニックネーム<br><input id="nick1" maxlength="10" placeholder="ニックネーム" autocomplete="off" style="margin-top:4px"></label><label style="display:block;font-size:.9rem">プレイヤー2のニックネーム<br><input id="nick2" maxlength="10" placeholder="ニックネーム" autocomplete="off" style="margin-top:4px"></label></div>
 <div id="spmsg" style="min-height:1.4em;margin-top:8px;font-size:.9rem"></div><button id="begin">はじめる！</button></div>
 <div id="vs"><div id="vsrnd" class="score" style="position:absolute;top:12px;right:12px;white-space:pre-line;font-size:.9rem;line-height:1.4;margin:0"></div><div id="vsq" style="font-size:1.3rem;font-weight:700;margin-bottom:20px"></div><input id="vstopic" placeholder="お題は何にしますか？" autocomplete="off" style="width:12em"><div style="font-size:.75rem;margin-top:6px;opacity:.8">※五文字のポケモン名をカタカナで入力してください</div><div id="vsrand" style="margin-top:8px;font-size:.9rem;text-decoration:underline;cursor:pointer">ランダムで決める</div><div id="vsmsg" style="min-height:1.3em;margin-top:6px;font-size:.85rem"></div><button id="vsok" disabled>お題を決定！</button></div>
-<div id="vf"><div style="font-size:1.4rem;font-weight:700">最終結果</div><div id="vfs" class="score" style="margin-top:16px;line-height:1.9;white-space:pre-line"></div><div id="vfw" style="font-size:2rem;font-weight:700;margin-top:24px"></div><button id="vfb" style="margin-top:28px;font-size:1rem;padding:10px 24px">最初の画面に戻る</button></div>
+<div id="vf"><div style="font-size:1.4rem;font-weight:700">最終結果</div><div id="vfs" class="score" style="margin-top:16px;line-height:1.9;white-space:pre-line"></div><div id="vfw" style="font-size:2rem;font-weight:700;margin-top:24px;white-space:pre-line"></div><button id="vfb" style="margin-top:28px;font-size:1rem;padding:10px 24px">最初の画面に戻る</button></div>
 <div id="hp"><div id="hpb">
 <div style="font-size:1.1rem;font-weight:700;text-align:center;margin-bottom:10px">モードの説明</div>
 <div style="font-weight:700">■ 今日の一問</div>
 <div>1日1問の、その日だけのお題に挑戦するモードです。お題は日付で決まり（日本時間の0時に切り替わります）、全世代の5文字のポケモンから選ばれます。同じ日なら、誰が遊んでも同じポケモンです。</div>
 <div style="font-weight:700;margin-top:12px">■ 通常モード</div>
 <div>ひとりで遊ぶモードです。ランダムに選ばれた5文字のポケモンを、10回以内に当てます。入力した名前の文字ごとに、色で教えてもらえます。<br>緑：位置も正解　黄：含まれるが位置が違う　灰：含まれない<br>出題する世代を自由に設定できます。連続で正解した数も数えます。</div>
-<div style="font-weight:700;margin-top:12px">■ 二人対戦モード</div>
-<div>ふたりで交代にお題を出し合って対戦します。<br>1. 出題する世代と二人のニックネームを決めます。<br>2. 一方がお題の5文字のポケモンを入力します（もう一方は画面を見ないでください）。<br>3. もう一方が、10回以内に当てます。<br>4. お題のポケモンを少ない回数で当てるほど高得点を獲得できます。一発で当てると10点、10回目ギリギリで当てると1点獲得できます。<br>5. 役割を交代して繰り返します。2人が1回ずつ答えると、ラウンドが1つ進みます。<br>初めの設定では、全5ラウンドを終えるか、どちらかの点数が25点を超えると終了です。ただし、先に答えた人が勝利点を超えたとき、もう一方の人が勝利点との差10点以内なら、その人の最後のターンも行います。終了時に点数が高いほうの勝ちです。<br>画面右上の歯車マークから、ラウンド数、勝利点、回答ごとの制限時間を変えられます。</div>
+<div style="font-weight:700;margin-top:12px">■ 二人対戦モードの基本的なあそびかた</div>
+<div>ふたりで交代にお題を出し合って対戦します。<br>1. 出題する世代と二人のニックネームを決めます。<br>2. 一方がお題の5文字のポケモンを入力します（もう一方は画面を見ないでください）。<br>3. もう一方が、10回以内に当てます。<br>4. お題のポケモンを少ない回数で当てるほど高得点を獲得できます。一発で当てると10点、10回目ギリギリで当てると1点獲得できます。<br>5. 役割を交代して繰り返します。2人が1回ずつ答えると、ラウンドが1つ進みます。<br>初めの設定では、全5ラウンドを終えるか、どちらかの点数が25点を超えると終了です。<br>画面右上の歯車マークから、ラウンド数、勝利点、回答ごとの制限時間を変えられます。</div>
 <div style="text-align:center"><button id="hpc" style="margin-top:14px">閉じる</button></div>
 </div></div>
 <div id="cfg"><div id="cfgb">
+<button type="button" id="cfgq" aria-label="設定の説明">？</button>
 <div style="font-size:1.1rem;font-weight:700;text-align:center">二人対戦の設定</div>
+<div id="cfgty"><button type="button" data-t="basic">ベーシック</button><button type="button" data-t="survival">サバイバル</button></div>
 <div class="f">ラウンド数<select id="cfgR" size="3"></select></div>
-<label class="f" style="display:block">勝利点（この点数を超えたら終了）<input id="cfgP" inputmode="numeric" maxlength="3" placeholder="空欄で無制限" autocomplete="off"></label>
+<label class="f" id="cfgPw" style="display:block">勝利点<input id="cfgP" inputmode="numeric" maxlength="3" placeholder="空欄で無制限" autocomplete="off"></label>
 <label class="f" style="display:block">回答ごとの制限時間（秒）<input id="cfgT" inputmode="numeric" maxlength="3" placeholder="空欄で無制限" autocomplete="off"></label>
+<div class="f" style="display:flex;align-items:center;justify-content:space-between">お題ランダム化<button type="button" id="cfgsw" role="switch" aria-checked="false" aria-label="お題ランダム化"></button></div>
+<div id="cfglim"><label class="f" id="cfgAw" style="display:none">総回答数<input id="cfgA" inputmode="numeric" maxlength="3" placeholder="空欄で無制限" autocomplete="off"></label><label class="f" style="display:block">各ラウンドごとの回答数の上限<input id="cfgL" inputmode="numeric" maxlength="2" value="10" autocomplete="off"></label></div>
 <div id="cfgm" style="min-height:1.4em;margin-top:8px;font-size:.85rem"></div>
 <div style="text-align:center"><button id="cfgok">決定</button><button class="s" id="cfgno">キャンセル</button></div>
+</div></div>
+<div id="cfgh"><div id="cfghb">
+<div style="font-size:1.1rem;font-weight:700;text-align:center;margin-bottom:10px">設定の説明</div>
+<div><b>ラウンド数</b>：２人が回答フェーズを一度終えるごとに1ラウンド経ったとみなします。決めた数のラウンドで終了します（∞は無制限）。</div>
+<div style="margin-top:8px"><b>勝利点</b>（ベーシック）：どちらかの点数がこの点を超えると終了します（空欄で無制限）。</div>
+<div style="margin-top:8px"><b>回答ごとの制限時間</b>：1回の回答にかけられる秒数です（空欄で無制限）。</div>
+<div style="margin-top:8px"><b>お題ランダム化</b>：ONにすると、お題をランダムに決めます。</div>
+<div style="margin-top:8px"><b>総回答数</b>（サバイバル）：対戦全体で答えられる回数の合計です（空欄で無制限）。</div>
+<div style="margin-top:8px"><b>各ラウンドごとの回答数の上限</b>：1つのお題に答えられる最大の回数です（1〜10）。</div>
+<div style="font-size:1.05rem;font-weight:700;text-align:center;margin:18px 0 8px">モードの説明</div>
+<div><b>ベーシック</b>：お題を少ない回数で当てるほど高い点を獲得できます。先に勝利点に届いた（超えた）ほうの勝ちです。</div>
+<div style="margin-top:8px"><b>サバイバル</b>：回答するたびに、総回答数の残りが1つ減ります。降参すると、その回の四角の列の残りぶんも減ります。残りの回答数が先に0になったほうの負けです。</div>
+<div style="text-align:center"><button id="cfghc" style="margin-top:14px">閉じる</button></div>
 </div></div>
 <div id="rt"><div id="rbox"><div id="rinfo" style="font-size:1rem;line-height:1.8">連鎖数：<span id="rcount"></span><br>世代：<span id="rgen"></span></div><div id="rq" style="margin-top:12px">同じ世代で続けますか？</div><div style="margin-top:16px"><button id="ryes">はい</button><button class="s" id="rno">いいえ</button></div></div></div>
 <div id="ov"><div id="box"><small>今回の答え</small><div id="ans"></div><button id="cl" style="margin-top:16px">閉じる</button></div></div>
@@ -122,7 +162,7 @@ button:disabled{opacity:.4;cursor:not-allowed}
 // ポケモン名リスト（5文字のものだけ自動で使われます。ここに追加すれば増やせます）
 const GENS=[{label:"カントー地方（第1世代）",src:"ゴリミー「ポケモン151種類の日本語名と英語名一覧」(gori.me)と全151匹を照合済み（2026-10-08）",names:`フシギダネ フシギソウ フシギバナ ヒトカゲ リザード リザードン ゼニガメ カメール カメックス キャタピー トランセル バタフリー ビードル コクーン スピアー ポッポ ピジョン ピジョット コラッタ ラッタ オニスズメ オニドリル アーボ アーボック ピカチュウ ライチュウ サンド サンドパン ニドラン♀ ニドリーナ ニドクイン ニドラン♂ ニドリーノ ニドキング ピッピ ピクシー ロコン キュウコン プリン プクリン ズバット ゴルバット ナゾノクサ クサイハナ ラフレシア パラス パラセクト コンパン モルフォン ディグダ ダグトリオ ニャース ペルシアン コダック ゴルダック マンキー オコリザル ガーディ ウインディ ニョロモ ニョロゾ ニョロボン ケーシィ ユンゲラー フーディン ワンリキー ゴーリキー カイリキー マダツボミ ウツドン ウツボット メノクラゲ ドククラゲ イシツブテ ゴローン ゴローニャ ポニータ ギャロップ ヤドン ヤドラン コイル レアコイル カモネギ ドードー ドードリオ パウワウ ジュゴン ベトベター ベトベトン シェルダー パルシェン ゴース ゴースト ゲンガー イワーク スリープ スリーパー クラブ キングラー ビリリダマ マルマイン タマタマ ナッシー カラカラ ガラガラ サワムラー エビワラー ベロリンガ ドガース マタドガス サイホーン サイドン ラッキー モンジャラ ガルーラ タッツー シードラ トサキント アズマオウ ヒトデマン スターミー バリヤード ストライク ルージュラ エレブー ブーバー カイロス ケンタロス コイキング ギャラドス ラプラス メタモン イーブイ シャワーズ サンダース ブースター ポリゴン オムナイト オムスター カブト カブトプス プテラ カビゴン フリーザー サンダー ファイヤー ミニリュウ ハクリュー カイリュー ミュウツー ミュウ`},{label:"ジョウト地方（第2世代）",src:"ポケモンWiki（全国図鑑一覧・ジョウト図鑑一覧）とAppMedia（ジョウト図鑑一覧）の2つで全100匹を照合済み（2026-10-08）",names:`チコリータ ベイリーフ メガニウム ヒノアラシ マグマラシ バクフーン ワニノコ アリゲイツ オーダイル オタチ オオタチ ホーホー ヨルノズク レディバ レディアン イトマル アリアドス クロバット チョンチー ランターン ピチュー ピィ ププリン トゲピー トゲチック ネイティ ネイティオ メリープ モココ デンリュウ キレイハナ マリル マリルリ ウソッキー ニョロトノ ハネッコ ポポッコ ワタッコ エイパム ヒマナッツ キマワリ ヤンヤンマ ウパー ヌオー エーフィ ブラッキー ヤミカラス ヤドキング ムウマ アンノーン ソーナンス キリンリキ クヌギダマ フォレトス ノコッチ グライガー ハガネール ブルー グランブル ハリーセン ハッサム ツボツボ ヘラクロス ニューラ ヒメグマ リングマ マグマッグ マグカルゴ ウリムー イノムー サニーゴ テッポウオ オクタン デリバード マンタイン エアームド デルビル ヘルガー キングドラ ゴマゾウ ドンファン ポリゴン2 オドシシ ドーブル バルキー カポエラー ムチュール エレキッド ブビィ ミルタンク ハピナス ライコウ エンテイ スイクン ヨーギラス サナギラス バンギラス ルギア ホウオウ セレビィ`},{label:"ホウエン地方（第3世代）",src:"Game8「第三世代のポケモンQRコード一覧(No252〜386)」と「第三世代(RS)のポケモン一覧」(game8.jp)。全135匹の件数と、AppMedia・ポケモンWikiの一部、および代表25匹の図鑑番号で確認済み（全件の第2出典照合は未実施・2026-10-08）",names:`キモリ ジュプトル ジュカイン アチャモ ワカシャモ バシャーモ ミズゴロウ ヌマクロー ラグラージ ポチエナ グラエナ ジグザグマ マッスグマ ケムッソ カラサリス アゲハント マユルド ドクケイル ハスボー ハスブレロ ルンパッパ タネボー コノハナ ダーテング スバメ オオスバメ キャモメ ペリッパー ラルトス キルリア サーナイト アメタマ アメモース キノココ キノガッサ ナマケロ ヤルキモノ ケッキング ツチニン テッカニン ヌケニン ゴニョニョ ドゴーム バクオング マクノシタ ハリテヤマ ルリリ ノズパス エネコ エネコロロ ヤミラミ クチート ココドラ コドラ ボスゴドラ アサナン チャーレム ラクライ ライボルト プラスル マイナン バルビート イルミーゼ ロゼリア ゴクリン マルノーム キバニア サメハダー ホエルコ ホエルオー ドンメル バクーダ コータス バネブー ブーピッグ パッチール ナックラー ビブラーバ フライゴン サボネア ノクタス チルット チルタリス ザングース ハブネーク ルナトーン ソルロック ドジョッチ ナマズン ヘイガニ シザリガー ヤジロン ネンドール リリーラ ユレイドル アノプス アーマルド ヒンバス ミロカロス ポワルン カクレオン カゲボウズ ジュペッタ ヨマワル サマヨール トロピウス チリーン アブソル ソーナノ ユキワラシ オニゴーリ タマザラシ トドグラー トドゼルガ パールル ハンテール サクラビス ジーランス ラブカス タツベイ コモルー ボーマンダ ダンバル メタング メタグロス レジロック レジアイス レジスチル ラティアス ラティオス カイオーガ グラードン レックウザ ジラーチ デオキシス`},{label:"シンオウ地方（第4世代）",src:"Game8「第四世代のポケモンQRコード一覧(No387〜493)」(game8.jp)。全107匹の件数と、代表9匹の図鑑番号で確認済み（第2出典との全件照合は未実施・2026-10-08）",names:`ナエトル ハヤシガメ ドダイトス ヒコザル モウカザル ゴウカザル ポッチャマ ポッタイシ エンペルト ムックル ムクバード ムクホーク ビッパ ビーダル コロボーシ コロトック コリンク ルクシオ レントラー スボミー ロズレイド ズガイドス ラムパルド タテトプス トリデプス ミノムッチ ミノマダム ガーメイル ミツハニー ビークイン パチリス ブイゼル フローゼル チェリンボ チェリム カラナクシ トリトドン エテボース フワンテ フワライド ミミロル ミミロップ ムウマージ ドンカラス ニャルマー ブニャット リーシャン スカンプー スカタンク ドーミラー ドータクン ウソハチ マネネ ピンプク ペラップ ミカルゲ フカマル ガバイト ガブリアス ゴンベ リオル ルカリオ ヒポポタス カバルドン スコルピ ドラピオン グレッグル ドクロッグ マスキッパ ケイコウオ ネオラント タマンタ ユキカブリ ユキノオー マニューラ ジバコイル ベロベルト ドサイドン モジャンボ エレキブル ブーバーン トゲキッス メガヤンマ リーフィア グレイシア グライオン マンムー ポリゴンZ エルレイド ダイノーズ ヨノワール ユキメノコ ロトム ユクシー エムリット アグノム ディアルガ パルキア ヒードラン レジギガス ギラティナ クレセリア フィオネ マナフィ ダークライ シェイミ アルセウス`},{label:"イッシュ地方（第5世代）",src:"Game8「第五世代のポケモンQRコード一覧(No495〜649)」(game8.jp)。全156匹の件数と、代表6匹の図鑑番号で確認済み（第2出典との全件照合は未実施・2026-10-08）",names:`ビクティニ ツタージャ ジャノビー ジャローダ ポカブ チャオブー エンブオー ミジュマル フタチマル ダイケンキ ミネズミ ミルホッグ ヨーテリー ハーデリア ムーランド チョロネコ レパルダス ヤナップ ヤナッキー バオップ バオッキー ヒヤップ ヒヤッキー ムンナ ムシャーナ マメパト ハトーボー ケンホロウ シママ ゼブライカ ダンゴロ ガントル ギガイアス コロモリ ココロモリ モグリュー ドリュウズ タブンネ ドッコラー ドテッコツ ローブシン オタマロ ガマガル ガマゲロゲ ナゲキ ダゲキ クルミル クルマユ ハハコモリ フシデ ホイーガ ペンドラー モンメン エルフーン チュリネ ドレディア バスラオ メグロコ ワルビル ワルビアル ダルマッカ ヒヒダルマ マラカッチ イシズマイ イワパレス ズルッグ ズルズキン シンボラー デスマス デスカーン プロトーガ アバゴーラ アーケン アーケオス ヤブクロン ダストダス ゾロア ゾロアーク チラーミィ チラチーノ ゴチム ゴチミル ゴチルゼル ユニラン ダブラン ランクルス コアルヒー スワンナ バニプッチ バニリッチ バイバニラ シキジカ メブキジカ エモンガ カブルモ シュバルゴ タマゲタケ モロバレル プルリル ブルンゲル ママンボウ バチュル デンチュラ テッシード ナットレイ ギアル ギギアル ギギギアル シビシラス シビビール シビルドン リグレー オーベム ヒトモシ ランプラー シャンデラ キバゴ オノンド オノノクス クマシュン ツンベアー フリージオ チョボマキ アギルダー マッギョ コジョフー コジョンド クリムガン ゴビット ゴルーグ コマタナ キリキザン バッフロン ワシボン ウォーグル バルチャイ バルジーナ クイタラン アイアント モノズ ジヘッド サザンドラ メラルバ ウルガモス コバルオン テラキオン ビリジオン トルネロス ボルトロス レシラム ゼクロム ランドロス キュレム ケルディオ メロエッタ ゲノセクト`},{label:"カロス地方（第6世代）",src:"WikiDex「第六世代のポケモン一覧」(wikidex.net)の日本語名全72匹。Game8の同世代ページと照合し、Game8側の不足（ニャオニクス）と誤記（ジガルデ50%）を修正済み（2026-10-08）",names:`ハリマロン ハリボーグ ブリガロン フォッコ テールナー マフォクシー ケロマツ ゲコガシラ ゲッコウガ ホルビー ホルード ヤヤコマ ヒノヤコマ ファイアロー コフキムシ コフーライ ビビヨン シシコ カエンジシ フラベベ フラエッテ フラージェス メェークル ゴーゴート ヤンチャム ゴロンダ トリミアン ニャスパー ニャオニクス ヒトツキ ニダンギル ギルガルド シュシュプ フレフワン ペロッパフ ペロリーム マーイーカ カラマネロ カメテテ ガメノデス クズモー ドラミドロ ウデッポウ ブロスター エリキテル エレザード チゴラス ガチゴラス アマルス アマルルガ ニンフィア ルチャブル デデンネ メレシー ヌメラ ヌメイル ヌメルゴン クレッフィ ボクレー オーロット バケッチャ パンプジン カチコール クレベース オンバット オンバーン ゼルネアス イベルタル ジガルデ ディアンシー フーパ ボルケニオン`},{label:"アローラ地方（第7世代）",src:"WikiDex「第七世代のポケモン一覧」(wikidex.net)の日本語名全88匹（#722〜#809）。722〜784番の63匹はGame8のページとも一致（2026-10-08）",names:`モクロー フクスロー ジュナイパー ニャビー ニャヒート ガオガエン アシマリ オシャマリ アシレーヌ ツツケラ ケララッパ ドデカバシ ヤングース デカグース アゴジムシ デンヂムシ クワガノン マケンカニ ケケンカニ オドリドリ アブリー アブリボン イワンコ ルガルガン ヨワシ ヒドイデ ドヒドイデ ドロバンコ バンバドロ シズクモ オニシズクモ カリキリ ラランテス ネマシュ マシェード ヤトウモリ エンニュート ヌイコグマ キテルグマ アマカジ アママイコ アマージョ キュワワー ヤレユータン ナゲツケサル コソクムシ グソクムシャ スナバァ シロデスナ ナマコブシ タイプ：ヌル シルヴァディ メテノ ネッコアラ バクガメス トゲデマル ミミッキュ ハギギシリ ジジーロン ダダリン ジャラコ ジャランゴ ジャラランガ カプ・コケコ カプ・テテフ カプ・ブルル カプ・レヒレ コスモッグ コスモウム ソルガレオ ルナアーラ ウツロイド マッシブーン フェローチェ デンジュモク テッカグヤ カミツルギ アクジキング ネクロズマ マギアナ マーシャドー ベベノム アーゴヨン ツンデツンデ ズガドーン ゼラオラ メルタン メルメタル`},{label:"ガラル・ヒスイ地方（第8世代）",src:"WikiDex「第八世代のポケモン一覧」(wikidex.net)の日本語名全96匹（#810〜#905、ヒスイ地方の7匹を含む）。件数と代表8匹の図鑑番号で確認済み（第2出典との全件照合は未実施・2026-10-08）",names:`サルノリ バチンキー ゴリランダー ヒバニー ラビフット エースバーン メッソン ジメレオン インテレオン ホシガリス ヨクバリス ココガラ アオガラス アーマーガア サッチムシ レドームシ イオルブ クスネ フォクスライ ヒメンカ ワタシラガ ウールー バイウールー カムカメ カジリガメ ワンパチ パルスワン タンドン トロッゴン セキタンザン カジッチュ アップリュー タルップル スナヘビ サダイジャ ウッウ サシカマス カマスジョー エレズン ストリンダー ヤクデ マルヤクデ タタッコ オトスパス ヤバチャ ポットデス ミブリム テブリム ブリムオン ベロバー ギモー オーロンゲ タチフサグマ ニャイキング サニゴーン ネギガナイト バリコオル デスバーン マホミル マホイップ タイレーツ バチンウニ ユキハミ モスノウ イシヘンジン コオリッポ イエッサン モルペコ ゾウドウ ダイオウドウ パッチラゴン パッチルドン ウオノラゴン ウオチルドン ジュラルドン ドラメシヤ ドロンチ ドラパルト ザシアン ザマゼンタ ムゲンダイナ ダクマ ウーラオス ザルード レジエレキ レジドラゴ ブリザポス レイスポス バドレックス アヤシシ バサギリ ガチグマ イダイトウ オオニューラ ハリーマン ラブトロス`},{label:"パルデア地方（第9世代）",src:"WikiDex「第九世代のポケモン一覧」(wikidex.net)の日本語名全120匹（#906〜#1025）。件数と代表6匹の図鑑番号で確認済み（第2出典との全件照合は未実施・2026-10-08）",names:`ニャオハ ニャローテ マスカーニャ ホゲータ アチゲータ ラウドボーン クワッス ウェルカモ ウェーニバル グルトン パフュートン タマンチュラ ワナイダー マメバッタ エクスレッグ パモ パモット パーモット ワッカネズミ イッカネズミ パピモッチ バウッツェル ミニーブ オリーニョ オリーヴァ イキリンコ コジオ ジオヅム キョジオーン カルボウ グレンアルマ ソウブレイズ ズピカ ハラバリー カイデン タイカイデン オラチフ マフィティフ シルシュルー タギングル アノクサ アノホラグサ ノノクラゲ リククラゲ ガケガニ カプサイジ スコヴィラン シガロコ ベラカス ヒラヒナ クエスパトラ カヌチャン ナカヌチャン デカヌチャン ウミディグダ ウミトリオ オトシドリ ナミイルカ イルカマン ブロロン ブロロローム モトトカゲ ミミズズ キラーメ キラフロル ボチ ハカドッグ カラミンゴ アルクジラ ハルクジラ ミガルーサ ヘイラッシャ シャリタツ コノヨザル ドオー リキキリン ノココッチ ドドゲザン イダイナキバ サケブシッポ アラブルタケ ハバタクカミ チヲハウハネ スナノケガワ テツノワダチ テツノツツミ テツノカイナ テツノコウベ テツノドクガ テツノイバラ セビエ セゴール セグレイブ コレクレー サーフゴー チオンジェン パオジアン ディンルー イーユイ トドロクツキ テツノブジン コライドン ミライドン ウネルミナモ テツノイサハ カミッチュ チャデス ヤバソチャ イイネイヌ マシマシラ キチキギス オーガポン ブリジュラス カミツオロチ ウガツホムラ タケルライコ テツノイワオ テツノカシラ テラパゴス モモワロウ`}];
 GENS.forEach(g=>g.list=g.names.split(/\s+/).filter(n=>[...n].length<=5));
-const MAX=10;let L=5,NAMES=[],KEYS=[];
+const MAX=10;let capRows=MAX,L=5,NAMES=[],KEYS=[];
 const ALL=[...new Set(GENS.slice(0,9).flatMap(g=>g.list))];
 const MAXLEN=Math.max(...ALL.map(n=>[...n].length));
 let epoch=0,msgT=0,ans,rows,done,busy=false,hold=false,lastStreak=0,rtTimer=0,fromRetry=false,forcedTopic="";
@@ -140,7 +180,8 @@ function fit(){
   const cs=Math.max(20,Math.min(30,Math.floor((avail-14-8*(N-1))/(2*N))));
   document.documentElement.style.setProperty("--cs",cs+"px");
 }
-function start(random){
+function start(random,c){
+  capRows=c||MAX;$("limtxt").textContent="ポケモン名を"+capRows+"回以内に当てよう";
   busy=false;hold=false;clearTimeout(rtTimer);$("rt").classList.remove("show");
   const idx=selGens($("gen").value);
   if(!idx.length){$("msg").textContent="世代を1つ以上チェックしてください";return}
@@ -179,7 +220,7 @@ function judge(g){
 }
 function draw(anim){
   let h="";
-  for(let r=0;r<MAX;r++){
+  for(let r=0;r<capRows;r++){
     const e=rows[r],n=e?e.g.length:L;
     h+=`<div class="row" style="grid-template-columns:repeat(${n},var(--cs,30px))">`;
     for(let c=0;c<n;c++){
@@ -196,7 +237,7 @@ function submit(){
   const w=$("in").value.trim(),g=[...w];
   if(!g.length){$("msg").textContent="ポケモン名を入力してください";return}
   if(!ALL.includes(w)){$("msg").textContent="リストにないポケモンです";clearTimeout(msgT);msgT=setTimeout(()=>{if($("msg").textContent==="リストにないポケモンです")$("msg").textContent=""},1000);return}
-  rows.push({g,res:judge(g)});$("in").value="";$("msg").textContent="";
+  rows.push({g,res:judge(g)});if(vsMode){vsUsed[1-vsTurn]++;vsRender()}$("limtxt").textContent="ポケモン名をあと"+(capRows-rows.length)+"回以内に当てよう";$("in").value="";$("msg").textContent="";
   if(vsMode&&vsCfg.time){vsRemain=vsCfg.time;showT()}
   busy=true;hold=true;draw(true);
   const r=rows.length-1,cells=[...document.querySelectorAll('.c[data-r="'+r+'"]')];
@@ -206,12 +247,12 @@ function submit(){
     if(ep!==epoch)return;busy=false;hold=false;drawKeys();
     if(w===ans.join("")){$("msg").textContent="正解！";done=true;
       if(vsMode){const g=1-vsTurn,pts=11-rows.length;vsScores[g]+=pts;vsRender();
-        $("wstreak").style.display="none";$("wpts").style.display="";$("wpts").textContent=vsPlayers[g]+"さんが"+pts+"点獲得";$("wq").textContent="続けますか？";
+        $("wstreak").style.display="none";$("wpts").style.display="";$("wpts").textContent=vsSurv()?vsPlayers[g]+"さんが"+rows.length+"回で正解":vsPlayers[g]+"さんが"+pts+"点獲得";$("wq").textContent="続けますか？";
         vsTurnsDone++;const last=vsOver(),ex=vsLast();if(last)$("wq").textContent=vsEndText();else if(ex)$("wq").innerHTML=vsLastText();$("quit").style.display=(last||ex)?"none":"";$("again").textContent=last?"最終結果を見る":(ex?"次へ":"はい")}
       else if(dailyMode){$("wstreak").style.display="none";$("wpts").style.display="";$("wpts").textContent="今日の一問に"+rows.length+"回で正解！";$("wq").textContent="また明日、新しいお題に挑戦しましょう";$("quit").style.display="none";$("again").textContent="最初の画面に戻る"}
       else{setStreak(streak+1);$("wcount").textContent=streak;$("wstreak").style.display="";$("wpts").style.display="none";$("wq").textContent="もう一度、別のお題に挑戦しますか？";$("quit").style.display="";$("again").textContent="はい"}
       $("wn").classList.add("show")}
-    else if(rows.length>=MAX){$("msg").textContent="正解は「"+ans.join("")+"」でした";done=true;if(!dailyMode)setStreak(0);
+    else if(rows.length>=capRows){$("msg").textContent="正解は「"+ans.join("")+"」でした";done=true;if(!dailyMode)setStreak(0);
       if(vsMode||dailyMode){if(vsMode){vsTurnsDone++;vsFail=true}$("ans").textContent=ans.join("");$("ov").classList.add("show")}}
     $("in").disabled=done;
     if(timeUp&&!done){timeUp=false;vsTimeout()}
@@ -230,7 +271,7 @@ $("no").onclick=()=>$("cf").classList.remove("show");
 $("yes").onclick=()=>{
   $("cf").classList.remove("show");
   if(done)return;
-  vsFail=false;if(vsMode)vsTurnsDone++;lastStreak=streak;done=true;if(!dailyMode)setStreak(0);vsTimerStop();$("in").disabled=true;
+  vsFail=false;if(vsMode){vsTurnsDone++;if(vsT()>0){vsUsed[1-vsTurn]+=Math.max(0,capRows-rows.length);vsRender()}}lastStreak=streak;done=true;if(!dailyMode)setStreak(0);vsTimerStop();$("in").disabled=true;
   $("ans").textContent=ans.join("");$("ov").classList.add("show");
   $("msg").textContent="降参しました。正解は「"+ans.join("")+"」";
 };
@@ -242,8 +283,8 @@ function genText(){
 $("cl").onclick=()=>{
   $("ov").classList.remove("show");
   clearTimeout(rtTimer);
-  rtTimer=setTimeout(()=>{$("rinfo").style.display=(vsMode||dailyMode)?"none":"";$("rq").innerHTML=vsMode?(vsFail?"点数獲得ならず<br>続けますか？":"続けますか？"):"同じ世代で続けますか？";
-    {const last=vsMode&&vsOver();if(last)$("rq").innerHTML=(vsFail?"点数獲得ならず<br>":"")+vsEndText();$("rno").style.display=last?"none":"";$("ryes").textContent=last?"最終結果を見る":"はい"}
+  rtTimer=setTimeout(()=>{$("rinfo").style.display=(vsMode||dailyMode)?"none":"";$("rq").innerHTML=vsMode?(vsFail?vsFailTxt()+"<br>続けますか？":"続けますか？"):"同じ世代で続けますか？";
+    {const last=vsMode&&vsOver(),ex=vsMode&&vsLast();if(last)$("rq").innerHTML=(vsFail?vsFailTxt()+"<br>":"")+vsEndText();else if(ex)$("rq").innerHTML=(vsFail?vsFailTxt()+"<br>":"")+vsLastText();$("rno").style.display=(last||ex)?"none":"";$("ryes").textContent=last?"最終結果を見る":(ex?"次へ":"はい")}
     if(dailyMode){$("rq").innerHTML="また明日、挑戦してください";$("rno").style.display="none";$("ryes").textContent="最初の画面に戻る"}$("rcount").textContent=lastStreak;$("rgen").textContent=genText();$("rt").classList.add("show")},500);
 };
 $("ryes").onclick=()=>{if(dailyMode){exitDaily();return}if(vsMode){$("rt").classList.remove("show");if(vsOver())showFinal();else nextVsRound()}else start(true)};
@@ -307,6 +348,8 @@ $("back").onclick=()=>{
   document.body.classList.remove("vsm","dm","nm");$("vsbar").style.display="none";$("dbar").style.display="none";$("vstimer").style.display="none";
   $("in").value="";setMode(mode);$("sp").classList.remove("hide");
 };
+try{if(localStorage.getItem("pwLayout")==="h"){document.body.classList.add("split");$("layout").value="h"}}catch(e){}
+$("layout").onchange=()=>{const h=$("layout").value==="h";document.body.classList.toggle("split",h);try{localStorage.setItem("pwLayout",h?"h":"v")}catch(e){}};
 $("back").onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();$("back").onclick()}};
 function exitDaily(){
   dailyMode=false;document.body.classList.remove("dm");$("dbar").style.display="none";
@@ -316,31 +359,63 @@ function exitDaily(){
 $("nick1").addEventListener("input",updateBegin);
 $("nick2").addEventListener("input",updateBegin);
 $("cfgR").innerHTML=[1,2,3,4,5,6,7,8,9,10].map(n=>`<option value="${n}">${n}ラウンド</option>`).join("")+'<option value="0">∞（無制限）</option>';
+let cfgShuffle=false,cfgMode="basic",cfgRd={b:5,s:0};
+function scrollR(){const r=$("cfgR");r.scrollTop=Math.max(0,r.selectedIndex-1)*(r.scrollHeight/r.options.length)}
+function setCfgMode(m){cfgMode=m;document.querySelectorAll("#cfgty button").forEach(b=>b.classList.toggle("sel",b.dataset.t===m));$("cfgPw").style.display=m==="basic"?"block":"none";$("cfgAw").style.display=m==="survival"?"block":"none"}
+function updCfgOk(){$("cfgok").disabled=cfgMode==="survival"&&$("cfgA").value.trim()===""}
+$("cfgA").addEventListener("input",updCfgOk);
+$("cfgty").onclick=e=>{const t=e.target.dataset&&e.target.dataset.t;if(t&&t!==cfgMode){cfgRd[cfgMode==="basic"?"b":"s"]=+$("cfgR").value;setCfgMode(t);$("cfgR").value=String(cfgRd[t==="basic"?"b":"s"]);scrollR();$("cfgm").textContent="";updCfgOk()}};
+function setShuffle(v){cfgShuffle=v;$("cfgsw").classList.toggle("on",v);$("cfgsw").setAttribute("aria-checked",String(v))}
+$("cfgsw").onclick=()=>setShuffle(!cfgShuffle);
+["cfgA","cfgL"].forEach(i=>$(i).addEventListener("focus",()=>$(i).select()));
 $("gear").onclick=()=>{
-  $("cfgR").value=String(vsCfg.rounds);$("cfgP").value=vsCfg.points||"";$("cfgT").value=vsCfg.time||"";$("cfgm").textContent="";
+  setCfgMode(vsCfg.mode);setShuffle(vsCfg.shuffle);$("cfgA").value=vsCfg.total?String(vsCfg.total):"";$("cfgL").value=String(vsCfg.per);
+  cfgRd={b:vsCfg.rb,s:vsCfg.rs};$("cfgR").value=String(cfgRd[vsCfg.mode==="basic"?"b":"s"]);$("cfgP").value=vsCfg.points||"";$("cfgT").value=vsCfg.time||"";$("cfgm").textContent="";updCfgOk();
   $("cfg").classList.add("show");
-  const r=$("cfgR");r.scrollTop=Math.max(0,r.selectedIndex-1)*(r.scrollHeight/r.options.length);
+  scrollR();
 };
 $("cfgno").onclick=()=>$("cfg").classList.remove("show");
 $("cfgok").onclick=()=>{
   const p=$("cfgP").value.trim(),t=$("cfgT").value.trim();
-  const pn=p===""?0:Number(p),tn=t===""?0:Number(t);
-  if(p!==""&&!(Number.isInteger(pn)&&pn>=1&&pn<=999)){$("cfgm").textContent="勝利点は1〜999の整数で入力してください（空欄で無制限）";return}
+  const pn=cfgMode==="basic"?(p===""?0:Number(p)):vsCfg.points,tn=t===""?0:Number(t);
+  if(cfgMode==="basic"&&p!==""&&!(Number.isInteger(pn)&&pn>=1&&pn<=999)){$("cfgm").textContent="勝利点は1〜999の整数で入力してください（空欄で無制限）";return}
   if(t!==""&&!(Number.isInteger(tn)&&tn>=5&&tn<=999)){$("cfgm").textContent="制限時間は5〜999秒の整数で入力してください（空欄で無制限）";return}
-  vsCfg={rounds:+$("cfgR").value,points:pn,time:tn};
+  let tot=vsCfg.total,per=vsCfg.per;
+  {
+    const a=$("cfgA").value.trim(),l=$("cfgL").value.trim();
+    if(cfgMode==="survival")tot=a===""?0:Number(a);per=l===""?NaN:Number(l);
+    if(cfgMode==="survival"&&tot&&!(Number.isInteger(tot)&&tot>=1&&tot<=100)){$("cfgm").textContent="総回答数は1〜100の整数で入力してください（空欄で無制限）";return}
+    if(!(Number.isInteger(per)&&per>=1&&per<=10)){$("cfgm").textContent="各ラウンドごとの回答数の上限は1〜10の整数で入力してください";return}
+  }
+  cfgRd[cfgMode==="basic"?"b":"s"]=+$("cfgR").value;
+  vsCfg={mode:cfgMode,rb:cfgRd.b,rs:cfgRd.s,rounds:cfgMode==="basic"?cfgRd.b:cfgRd.s,points:pn,time:tn,shuffle:cfgShuffle,total:tot,per:per};
   $("cfg").classList.remove("show");
 };
+$("cfgq").onclick=()=>$("cfgh").classList.add("show");
+$("cfghc").onclick=()=>$("cfgh").classList.remove("show");
+$("cfgh").onclick=e=>{if(e.target===$("cfgh"))$("cfgh").classList.remove("show")};
 $("hq").onclick=()=>$("hp").classList.add("show");
 $("hpc").onclick=()=>$("hp").classList.remove("show");
 $("hp").onclick=e=>{if(e.target===$("hp"))$("hp").classList.remove("show")};
-let vsScores=[0,0],vsMode=false,vsFail=false,vsTurnsDone=0,dailyMode=false,vsCfg={rounds:5,points:25,time:0},vsTick=0,vsRemain=0,timeUp=false;
-function vsHit(){return vsCfg.points>0&&vsScores.some(x=>x>vsCfg.points)}
-function vsLast(){if(!vsHit()||vsTurnsDone%2===0||(vsCfg.rounds>0&&vsTurnsDone>=vsCfg.rounds*2))return false;const f=1-vsTurn,o=vsTurn;return vsScores[f]>vsCfg.points&&vsScores[o]>=vsCfg.points-10}
-function vsOver(){return (vsCfg.rounds>0&&vsTurnsDone>=vsCfg.rounds*2)||(vsHit()&&!vsLast())}
-function vsLastText(){return vsPlayers[1-vsTurn]+"さんが"+vsCfg.points+"点を超えました<br>"+vsPlayers[vsTurn]+"さんの最後のターンです"}
-function vsEndText(){return (vsCfg.points>0&&vsScores.some(x=>x>vsCfg.points))?vsCfg.points+"点を超えたので終了！":"全ラウンド終了！"}
-function vsRoundTxt(){const n=Math.floor(vsTurnsDone/2)+1;return "ラウンド\n"+(vsCfg.rounds>0?Math.min(vsCfg.rounds,n):n)+" / "+(vsCfg.rounds>0?vsCfg.rounds:"∞")}
-function vsRender(){$("vsscore").textContent=vsPlayers[0]+"："+vsScores[0]+"点　"+vsPlayers[1]+"："+vsScores[1]+"点"}
+let vsScores=[0,0],vsMode=false,vsFail=false,vsTurnsDone=0,vsUsed=[0,0],dailyMode=false,vsCfg={mode:"basic",rb:5,rs:0,rounds:5,points:25,time:0,shuffle:false,total:0,per:10},vsTick=0,vsRemain=0,timeUp=false;
+function vsSurv(){return vsCfg.mode==="survival"}
+function vsP(){return vsSurv()?0:vsCfg.points}
+function vsT(){return vsSurv()?vsCfg.total:0}
+function vsZero(){return vsT()>0?vsUsed.findIndex(u=>u>=vsT()):-1}
+function vsFailTxt(){return vsSurv()?"正解ならず":"点数獲得ならず"}
+function vsHit(){return vsP()>0&&vsScores.some(x=>x>vsP())}
+function vsLast(){
+  if(vsTurnsDone%2===0||(vsCfg.rounds>0&&vsTurnsDone>=vsCfg.rounds*2))return false;
+  const f=1-vsTurn,o=vsTurn;
+  if(vsSurv())return vsT()>0&&vsUsed[f]>=vsT()&&vsUsed[o]<vsT()&&vsT()-vsUsed[o]<vsCfg.per;
+  return vsHit()&&vsScores[f]>vsP()&&vsScores[o]>=vsP()-10;
+}
+function vsOver(){return (vsCfg.rounds>0&&vsTurnsDone>=vsCfg.rounds*2)||((vsZero()>=0||vsHit())&&!vsLast())}
+function vsLastText(){const f=1-vsTurn,o=vsTurn;return vsSurv()?vsPlayers[f]+"さんの回答数が0になりました<br>"+vsPlayers[o]+"さんの最後のターンです":vsPlayers[f]+"さんが"+vsP()+"点を超えました<br>"+vsPlayers[o]+"さんの最後のターンです"}
+function vsEndText(){const z=vsZero();if(z>=0)return vsT()-vsUsed[1-z]<=0?"二人とも回答数が0になりました":vsPlayers[z]+"さんの回答数が0になりました";return vsHit()?vsP()+"点を超えたので終了！":"全ラウンド終了！"}
+function vsRoundTxt(){if(vsCfg.rounds===0)return "ラウンド\n∞";const n=Math.floor(vsTurnsDone/2)+1;return "ラウンド\n"+(vsCfg.rounds>0?Math.min(vsCfg.rounds,n):n)+" / "+(vsCfg.rounds>0?vsCfg.rounds:"∞")}
+function vsLeft(i){return vsT()>0?(vsT()-vsUsed[i])+"回":"∞"}
+function vsRender(){$("vsscore").textContent=vsSurv()?vsPlayers[0]+"：残り"+vsLeft(0)+"　"+vsPlayers[1]+"：残り"+vsLeft(1):vsPlayers[0]+"："+vsScores[0]+"点　"+vsPlayers[1]+"："+vsScores[1]+"点"}
 let vsGens=[],vsList=[],vsPlayers=[],vsTurn=0,vsTopic="";
 function topicList(idx){return [...new Set(idx.map(k=>GENS[k]).flatMap(g=>g.list))].filter(n=>[...n].length===5)}
 function vsCheck(){
@@ -354,9 +429,20 @@ $("vsrand").onclick=()=>{
   $("vstopic").value=vsList[Math.floor(Math.random()*vsList.length)];
   vsCheck();
 };
+function vsRandTopic(){let t;do{t=vsList[Math.floor(Math.random()*vsList.length)]}while(vsList.length>1&&t===prev);return t}
+function vsStartAnswer(topic){
+  vsTopic=topic;const g=1-vsTurn;
+  const rem=vsT()>0?vsT()-vsUsed[g]:MAX;
+  $("vsturn").textContent=vsPlayers[g]+"さんのターンです";
+  vsRender();$("vsrnd2").textContent=vsRoundTxt();
+  $("vsbar").style.display="";document.body.classList.add("vsm");
+  $("vs").classList.remove("show");
+  forcedTopic=topic;start(true,Math.min(vsCfg.per,rem));forcedTopic="";vsTimerStart();
+}
 function nextVsRound(){
   $("wn").classList.remove("show");
   vsTurn=1-vsTurn;
+  if(vsCfg.shuffle){vsStartAnswer(vsRandTopic());return}
   $("vsrnd").textContent=vsRoundTxt();
   $("vsq").textContent=vsPlayers[vsTurn]+"さんだけ見てください";
   $("vstopic").value="";$("vsmsg").textContent="";$("vsok").disabled=true;
@@ -380,15 +466,24 @@ function vsTimeout(){
   $("cf").classList.remove("show");
   done=true;$("in").disabled=true;
   vsTurnsDone++;vsFail=true;
+  if(vsT()>0){vsUsed[1-vsTurn]+=Math.max(0,capRows-rows.length);vsRender()}
   $("msg").textContent="時間切れ！ 正解は「"+ans.join("")+"」でした";
   $("ans").textContent=ans.join("");$("ov").classList.add("show");
 }
 function showFinal(){
   vsTimerStop();
   $("wn").classList.remove("show");
-  const a=vsScores[0],b=vsScores[1];
-  $("vfs").textContent=vsPlayers[0]+"："+a+"点\n"+vsPlayers[1]+"："+b+"点";
-  $("vfw").textContent=a===b?"引き分け":(a>b?vsPlayers[0]:vsPlayers[1])+"さんの勝ち！";
+  if(vsSurv()){
+    const zs=[0,1].filter(i=>vsT()>0&&vsUsed[i]>=vsT()),z=zs.length===1?zs[0]:-1,l=[0,1].map(i=>vsT()>0?vsT()-vsUsed[i]:Infinity);
+    $("vfs").textContent=vsPlayers[0]+"：残り"+vsLeft(0)+"\n"+vsPlayers[1]+"：残り"+vsLeft(1);
+    $("vfw").textContent=zs.length===2?"二人とも回答数が0になりました。\n引き分け":z>=0?vsPlayers[z]+"さんの回答数が0になりました。\n"+vsPlayers[1-z]+"さんの勝ち！":(l[0]===l[1]?"引き分け":vsPlayers[l[0]>l[1]?0:1]+"さんの勝ち！");
+    $("vfb").textContent="メニューに戻る";$("vfw").style.fontSize="1.5rem";
+  }else{
+    const a=vsScores[0],b=vsScores[1];
+    $("vfs").textContent=vsPlayers[0]+"："+a+"点\n"+vsPlayers[1]+"："+b+"点";
+    $("vfw").textContent=a===b?"引き分け":(a>b?vsPlayers[0]:vsPlayers[1])+"さんの勝ち！";
+    $("vfb").textContent="最初の画面に戻る";$("vfw").style.fontSize="2rem";
+  }
   $("vf").classList.add("show");
 }
 $("vfb").onclick=()=>{
@@ -398,13 +493,7 @@ $("vfb").onclick=()=>{
 };
 $("vsok").onclick=()=>{
   if($("vsok").disabled)return;
-  vsTopic=$("vstopic").value.trim();
-  const g=1-vsTurn;
-  $("vsturn").textContent=vsPlayers[g]+"さんのみ入力してください";
-  vsRender();$("vsrnd2").textContent=vsRoundTxt();
-  $("vsbar").style.display="";document.body.classList.add("vsm");
-  $("vs").classList.remove("show");
-  forcedTopic=vsTopic;start(true);forcedTopic="";vsTimerStart();
+  vsStartAnswer($("vstopic").value.trim());
 };
 $("begin").onclick=()=>{
   $("vstimer").style.display="none";
@@ -413,11 +502,12 @@ $("begin").onclick=()=>{
   if(!selGens($("gen0").value).length){$("spmsg").textContent="世代を1つ以上チェックしてください";return}
   vsMode=false;
   if(mode==="vs"){
-    vsMode=true;vsScores=[0,0];vsTurnsDone=0;$("vsrnd").textContent=vsRoundTxt();
+    vsMode=true;vsScores=[0,0];vsUsed=[0,0];vsTurnsDone=0;$("vsrnd").textContent=vsRoundTxt();
     $("gen").value=$("gen0").value;showChecks();
     vsGens=selGens($("gen0").value);vsList=topicList(vsGens);
     vsPlayers=[$("nick1").value.trim(),$("nick2").value.trim()];
     vsTurn=Math.random()<0.5?0:1;
+    if(vsCfg.shuffle){$("sp").classList.add("hide");vsStartAnswer(vsRandTopic());return}
     $("vsq").textContent=vsPlayers[vsTurn]+"さんだけ見てください";
     $("vstopic").value="";$("vsmsg").textContent="";$("vsok").disabled=true;
     $("sp").classList.add("hide");$("vs").classList.add("show");
