@@ -70,11 +70,13 @@ button:disabled{opacity:.4;cursor:not-allowed}
 .chk.show{display:block}
 .chk label{display:flex;align-items:center;gap:8px;white-space:nowrap;padding:3px 0;font-size:.95rem;cursor:pointer}
 .chk input{width:auto;height:auto;padding:0;margin:0;border:0;flex:none}
+#back{position:absolute;top:12px;left:12px;padding:4px;font-size:.8rem;text-decoration:underline;opacity:.5;cursor:pointer;z-index:1}
 #msg{min-height:1.6em;margin:8px 0;font-weight:700}
 </style>
 </head>
 <body>
 <h1>ポケモンWordle</h1>
+<div id="back" role="button" tabindex="0">メニューに戻る</div>
 <div id="dbar" style="display:none;font-weight:700;margin:8px 0"></div>
 <div id="vsbar" style="display:none"><div id="vsturn" style="font-weight:700;margin:8px 0"></div><div id="vsscore" class="score"></div><div id="vsrnd2" class="score" style="position:absolute;top:12px;right:12px;margin:0;white-space:pre-line;font-size:.85rem;line-height:1.3"></div></div>
 <div>ポケモン名を10回以内に当てよう</div>
@@ -90,7 +92,7 @@ button:disabled{opacity:.4;cursor:not-allowed}
 <div id="cf"><div id="cbox">本当に降参しますか？<div style="margin-top:16px"><button id="yes">はい</button><button class="s" id="no">いいえ</button></div></div></div>
 <details style="margin-top:20px;font-size:.75rem;opacity:.7;text-align:left;max-width:380px;margin-left:auto;margin-right:auto"><summary>名前リストの出典（お題は5文字のみ・6文字以上は除外）</summary><div id="src"></div></details>
 <div id="wn"><div id="wbox">正解！<div id="wstreak" style="margin:8px 0;font-size:1rem">連続正解数：<span id="wcount"></span></div><div id="wpts" style="display:none;margin:8px 0;font-size:1rem"></div><div id="wq" style="font-size:1rem">もう一度、別のお題に挑戦しますか？</div><div style="margin-top:16px"><button id="again">はい</button><button class="s" id="quit">いいえ</button></div></div></div>
-<div id="sp"><button type="button" id="hq" data-tip="モードの説明" aria-label="モードの説明">？</button><button type="button" id="gear" data-tip="詳細の設定" aria-label="詳細の設定" style="display:none">⚙︎</button><h1>ポケモンWordle</h1><div style="margin-bottom:12px">モード</div><div class="mode"><button type="button" id="m-d">今日の一問</button><button type="button" id="m-n" class="sel">通常モード</button><button type="button" id="m-v">二人対戦モード</button></div>
+<div id="sp"><button type="button" id="hq" data-tip="モードの説明" aria-label="モードの説明">？</button><button type="button" id="gear" data-tip="詳細の設定" aria-label="詳細の設定" style="display:none">⚙︎</button><h1>ポケモンWordle</h1><div class="mode"><button type="button" id="m-d">今日の一問</button><button type="button" id="m-n" class="sel">通常モード</button><button type="button" id="m-v">二人対戦モード</button></div>
 <div id="spn" style="text-align:center"><div style="margin-bottom:12px">世代</div><select id="gen0"></select><div id="chk0" class="chk"></div></div>
 <div id="spv" style="display:none;text-align:left"><label style="display:block;margin-bottom:12px;font-size:.9rem">プレイヤー1のニックネーム<br><input id="nick1" maxlength="10" placeholder="ニックネーム" autocomplete="off" style="margin-top:4px"></label><label style="display:block;font-size:.9rem">プレイヤー2のニックネーム<br><input id="nick2" maxlength="10" placeholder="ニックネーム" autocomplete="off" style="margin-top:4px"></label></div>
 <div id="spmsg" style="min-height:1.4em;margin-top:8px;font-size:.9rem"></div><button id="begin">はじめる！</button></div>
@@ -103,7 +105,7 @@ button:disabled{opacity:.4;cursor:not-allowed}
 <div style="font-weight:700;margin-top:12px">■ 通常モード</div>
 <div>ひとりで遊ぶモードです。ランダムに選ばれた5文字のポケモンを、10回以内に当てます。入力した名前の文字ごとに、色で教えてもらえます。<br>緑：位置も正解　黄：含まれるが位置が違う　灰：含まれない<br>出題する世代を自由に設定できます。連続で正解した数も数えます。</div>
 <div style="font-weight:700;margin-top:12px">■ 二人対戦モード</div>
-<div>ふたりで交代にお題を出し合って対戦します。<br>1. 出題する世代と二人のニックネームを決めます。<br>2. 一方がお題の5文字のポケモンを入力します（もう一方は画面を見ないでください）。<br>3. もう一方が、10回以内に当てます。<br>4. お題のポケモンを少ない回数で当てるほど高得点を獲得できます。一発で当てると10点、10回目ギリギリで当てると1点獲得できます。<br>5. 役割を交代して繰り返します。2人が1回ずつ答えると、ラウンドが1つ進みます。<br>初めの設定では、全5ラウンドを終えるか、どちらかの点数が25点を超えると終了です。終了時に点数が高いほうの勝ちです。<br>画面右上の歯車マークから、ラウンド数、勝利点、回答ごとの制限時間を変えられます。</div>
+<div>ふたりで交代にお題を出し合って対戦します。<br>1. 出題する世代と二人のニックネームを決めます。<br>2. 一方がお題の5文字のポケモンを入力します（もう一方は画面を見ないでください）。<br>3. もう一方が、10回以内に当てます。<br>4. お題のポケモンを少ない回数で当てるほど高得点を獲得できます。一発で当てると10点、10回目ギリギリで当てると1点獲得できます。<br>5. 役割を交代して繰り返します。2人が1回ずつ答えると、ラウンドが1つ進みます。<br>初めの設定では、全5ラウンドを終えるか、どちらかの点数が25点を超えると終了です。ただし、先に答えた人が勝利点を超えたとき、もう一方の人が勝利点との差10点以内なら、その人の最後のターンも行います。終了時に点数が高いほうの勝ちです。<br>画面右上の歯車マークから、ラウンド数、勝利点、回答ごとの制限時間を変えられます。</div>
 <div style="text-align:center"><button id="hpc" style="margin-top:14px">閉じる</button></div>
 </div></div>
 <div id="cfg"><div id="cfgb">
@@ -123,7 +125,7 @@ GENS.forEach(g=>g.list=g.names.split(/\s+/).filter(n=>[...n].length<=5));
 const MAX=10;let L=5,NAMES=[],KEYS=[];
 const ALL=[...new Set(GENS.slice(0,9).flatMap(g=>g.list))];
 const MAXLEN=Math.max(...ALL.map(n=>[...n].length));
-let msgT=0,ans,rows,done,busy=false,hold=false,lastStreak=0,rtTimer=0,fromRetry=false,forcedTopic="";
+let epoch=0,msgT=0,ans,rows,done,busy=false,hold=false,lastStreak=0,rtTimer=0,fromRetry=false,forcedTopic="";
 const $=id=>document.getElementById(id);
 let streak=0,prev="";try{streak=+localStorage.getItem("pwStreak")||0}catch(e){}
 function setStreak(n){streak=n;try{localStorage.setItem("pwStreak",String(n))}catch(e){}$("st").textContent="連続正解数："+streak}
@@ -198,14 +200,14 @@ function submit(){
   if(vsMode&&vsCfg.time){vsRemain=vsCfg.time;showT()}
   busy=true;hold=true;draw(true);
   const r=rows.length-1,cells=[...document.querySelectorAll('.c[data-r="'+r+'"]')];
-  const hit=w===ans.join(""),iv=hit?300:200;
-  cells.forEach((el,i)=>setTimeout(()=>{const x=rows[r].res[i];el.classList.add(x);if(x!=="n")el.classList.add("pop");colorKey(rows[r].g[i],x)},i*iv));
+  const hit=w===ans.join(""),iv=hit?300:200,ep=epoch;
+  cells.forEach((el,i)=>setTimeout(()=>{if(ep!==epoch)return;const x=rows[r].res[i];el.classList.add(x);if(x!=="n")el.classList.add("pop");colorKey(rows[r].g[i],x)},i*iv));
   setTimeout(()=>{
-    busy=false;hold=false;drawKeys();
+    if(ep!==epoch)return;busy=false;hold=false;drawKeys();
     if(w===ans.join("")){$("msg").textContent="正解！";done=true;
       if(vsMode){const g=1-vsTurn,pts=11-rows.length;vsScores[g]+=pts;vsRender();
         $("wstreak").style.display="none";$("wpts").style.display="";$("wpts").textContent=vsPlayers[g]+"さんが"+pts+"点獲得";$("wq").textContent="続けますか？";
-        vsTurnsDone++;const last=vsOver();if(last)$("wq").textContent=vsEndText();$("quit").style.display=last?"none":"";$("again").textContent=last?"最終結果を見る":"はい"}
+        vsTurnsDone++;const last=vsOver(),ex=vsLast();if(last)$("wq").textContent=vsEndText();else if(ex)$("wq").innerHTML=vsLastText();$("quit").style.display=(last||ex)?"none":"";$("again").textContent=last?"最終結果を見る":(ex?"次へ":"はい")}
       else if(dailyMode){$("wstreak").style.display="none";$("wpts").style.display="";$("wpts").textContent="今日の一問に"+rows.length+"回で正解！";$("wq").textContent="また明日、新しいお題に挑戦しましょう";$("quit").style.display="none";$("again").textContent="最初の画面に戻る"}
       else{setStreak(streak+1);$("wcount").textContent=streak;$("wstreak").style.display="";$("wpts").style.display="none";$("wq").textContent="もう一度、別のお題に挑戦しますか？";$("quit").style.display="";$("again").textContent="はい"}
       $("wn").classList.add("show")}
@@ -297,6 +299,15 @@ function startDaily(){
   $("sp").classList.add("hide");
   forcedTopic=d.name;start(true);forcedTopic="";
 }
+$("back").onclick=()=>{
+  epoch++;busy=false;hold=false;timeUp=false;vsTimerStop();clearTimeout(rtTimer);
+  ["ov","cf","wn","rt","vs","vf"].forEach(i=>$(i).classList.remove("show"));
+  if(!dailyMode&&!vsMode){$("gen0").value=$("gen").value;showChecks()}
+  dailyMode=false;vsMode=false;
+  document.body.classList.remove("vsm","dm","nm");$("vsbar").style.display="none";$("dbar").style.display="none";$("vstimer").style.display="none";
+  $("in").value="";setMode(mode);$("sp").classList.remove("hide");
+};
+$("back").onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();$("back").onclick()}};
 function exitDaily(){
   dailyMode=false;document.body.classList.remove("dm");$("dbar").style.display="none";
   $("wn").classList.remove("show");$("rt").classList.remove("show");
@@ -323,7 +334,10 @@ $("hq").onclick=()=>$("hp").classList.add("show");
 $("hpc").onclick=()=>$("hp").classList.remove("show");
 $("hp").onclick=e=>{if(e.target===$("hp"))$("hp").classList.remove("show")};
 let vsScores=[0,0],vsMode=false,vsFail=false,vsTurnsDone=0,dailyMode=false,vsCfg={rounds:5,points:25,time:0},vsTick=0,vsRemain=0,timeUp=false;
-function vsOver(){return (vsCfg.rounds>0&&vsTurnsDone>=vsCfg.rounds*2)||(vsCfg.points>0&&vsScores.some(x=>x>vsCfg.points))}
+function vsHit(){return vsCfg.points>0&&vsScores.some(x=>x>vsCfg.points)}
+function vsLast(){if(!vsHit()||vsTurnsDone%2===0||(vsCfg.rounds>0&&vsTurnsDone>=vsCfg.rounds*2))return false;const f=1-vsTurn,o=vsTurn;return vsScores[f]>vsCfg.points&&vsScores[o]>=vsCfg.points-10}
+function vsOver(){return (vsCfg.rounds>0&&vsTurnsDone>=vsCfg.rounds*2)||(vsHit()&&!vsLast())}
+function vsLastText(){return vsPlayers[1-vsTurn]+"さんが"+vsCfg.points+"点を超えました<br>"+vsPlayers[vsTurn]+"さんの最後のターンです"}
 function vsEndText(){return (vsCfg.points>0&&vsScores.some(x=>x>vsCfg.points))?vsCfg.points+"点を超えたので終了！":"全ラウンド終了！"}
 function vsRoundTxt(){const n=Math.floor(vsTurnsDone/2)+1;return "ラウンド\n"+(vsCfg.rounds>0?Math.min(vsCfg.rounds,n):n)+" / "+(vsCfg.rounds>0?vsCfg.rounds:"∞")}
 function vsRender(){$("vsscore").textContent=vsPlayers[0]+"："+vsScores[0]+"点　"+vsPlayers[1]+"："+vsScores[1]+"点"}
@@ -393,6 +407,7 @@ $("vsok").onclick=()=>{
   forcedTopic=vsTopic;start(true);forcedTopic="";vsTimerStart();
 };
 $("begin").onclick=()=>{
+  $("vstimer").style.display="none";
   document.body.classList.remove("nm");
   if(mode==="daily"){startDaily();return}
   if(!selGens($("gen0").value).length){$("spmsg").textContent="世代を1つ以上チェックしてください";return}
